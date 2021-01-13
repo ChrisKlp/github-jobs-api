@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect,
 } from 'react-router-dom';
 import Home from './Home';
 import Job from './Job';
@@ -13,7 +14,8 @@ const Root = () => {
       <Switch>
         <MainTemplate>
           <Route exact path="/" component={Home} />
-          <Route path="/job/:id" component={Job} />
+          <Route exact path="/job/:id" component={Job} />
+          <Redirect to="/" />
         </MainTemplate>
       </Switch>
     </Router>
