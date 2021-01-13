@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import { srOnly } from '../../../theme/GlobalStyle';
 import { rgba } from 'polished';
 import iconCheck from '../../../assets/desktop/icon-check.svg';
-import { useContext} from 'react';
+import { useContext } from 'react';
 import { JobsFiltersContext } from '../context';
 
 const Wrapper = styled.label`
@@ -17,7 +17,8 @@ const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
   ${srOnly}
 `;
 
-const StyledCheckbox = styled.div`
+const StyledCheckbox = styled.span`
+  display: block;
   flex-shrink: 0;
   width: 2.4rem;
   height: 2.4rem;
