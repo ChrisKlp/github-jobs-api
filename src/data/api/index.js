@@ -1,7 +1,7 @@
 import axios from 'axios';
-// https://cors-anywhere.herokuapp.com/
+
 const API_URL =
-  'https://jobs.github.com/positions';
+  'https://cors-anywhere.herokuapp.com/https://jobs.github.com/positions';
 
 export const getJobs = (description, location, full_time, page) =>
   axios.get(`${API_URL}.json`, {
