@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Job from './JobCard/JobCard';
 import { Wrapper } from './JobsList.css';
 

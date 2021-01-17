@@ -1,4 +1,3 @@
-import { createStore } from 'redux';
 import { createSelector } from 'reselect';
 
 const jobsListSelector = state => state.jobsList;
