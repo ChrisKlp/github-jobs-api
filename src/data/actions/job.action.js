@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { getJob} from '../api';
 
 import { JOB_GET_REQUEST, JOB_GET_SUCCESS, JOB_GET_FAILURE } from '../types';
 
@@ -8,9 +8,7 @@ export const fetchSingleJob = id => async dispatch => {
   });
 
   try {
-    const response = await axios.get(
-      `https://cors-anywhere.herokuapp.com/https://jobs.github.com/positions/${id}.json`
-    );
+    const response = await getJob(id)
     const { data } = response;
 
     dispatch({

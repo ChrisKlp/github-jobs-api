@@ -1,27 +1,23 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
 import Header from '../components/Header/Header';
-import { toggleTheme } from '../data/actions/theme.action';
+import { fetchJobs } from '../data/actions/jobsList.action';
+import useTheme from '../hooks/useTheme';
 import GlobalStyle from '../theme/GlobalStyle';
-import { lightTheme, darkTheme } from '../theme/themes';
+import { darkTheme, lightTheme } from '../theme/themes';
 
 const MainTemplate = ({ children }) => {
+  const { page } = useSelector(store => store.jobsList);
+  const { filters } = useSelector(store => store.filter);
+
+  const darkThemeEnabled = useTheme();
   const dispatch = useDispatch();
-  const { darkThemeEnabled } = useSelector(store => store.theme);
-  const mediaThemeQuery = window.matchMedia('(prefers-color-scheme: dark)')
+  const getJobs = useCallback(() => dispatch(fetchJobs()), [dispatch]);
 
   useEffect(() => {
-    if (darkThemeEnabled !== mediaThemeQuery.matches) {
-      dispatch(toggleTheme());
-    }
-    const themeSwitch = () => dispatch(toggleTheme());
-    mediaThemeQuery.addEventListener('change', themeSwitch);
-    return () => {
-      mediaThemeQuery.removeEventListener('change', themeSwitch);
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    getJobs();
+  }, [getJobs, page, filters]);
 
   return (
     <ThemeProvider theme={darkThemeEnabled ? darkTheme : lightTheme}>

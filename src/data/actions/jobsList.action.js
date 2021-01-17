@@ -1,36 +1,22 @@
-import axios from 'axios';
+import { getJobs } from '../api';
 
 import {
   JOBSLIST_GET_REQUEST,
   JOBSLIST_GET_SUCCESS,
   JOBSLIST_GET_FAILURE,
-  SET_FILTERS,
-  LOAD_MORE,
-  RESET_PAGINATION,
+  CLEAR_JOBS_LIST,
 } from '../types';
 
 export const fetchJobs = () => async (dispatch, getState) => {
-  const {
-    filters: { description, location, full_time },
-    page,
-  } = getState().jobsList;
+  const { page } = getState().jobsList;
+  const { description, location, full_time } = getState().filter.filters;
 
   dispatch({
     type: JOBSLIST_GET_REQUEST,
   });
 
   try {
-    const response = await axios.get(
-      'https://cors-anywhere.herokuapp.com/https://jobs.github.com/positions.json',
-      {
-        params: {
-          description,
-          location,
-          full_time,
-          page,
-        },
-      }
-    );
+    const response = await getJobs(description, location, full_time, page);
     const { data } = response;
 
     dispatch({
@@ -44,19 +30,6 @@ export const fetchJobs = () => async (dispatch, getState) => {
   }
 };
 
-export const setFilters = (description, location, full_time) => ({
-  type: SET_FILTERS,
-  payload: {
-    description,
-    location,
-    full_time,
-  },
-});
-
-export const loadMore = () => ({
-  type: LOAD_MORE,
-});
-
-export const resetPage = () => ({
-  type: RESET_PAGINATION,
+export const clearJobsList = () => ({
+  type: CLEAR_JOBS_LIST,
 });

@@ -2,15 +2,12 @@ import {
   JOBSLIST_GET_REQUEST,
   JOBSLIST_GET_SUCCESS,
   JOBSLIST_GET_FAILURE,
-  SET_FILTERS,
-  LOAD_MORE,
-  RESET_PAGINATION,
+  CLEAR_JOBS_LIST,
 } from '../types';
 
 const initialState = {
   loading: null,
   jobs: [],
-  filters: {},
   page: 1,
 };
 
@@ -24,35 +21,23 @@ const jobsList = (state = initialState, action) => {
     case JOBSLIST_GET_SUCCESS:
       return {
         ...state,
-        jobs: action.payload,
+        jobs: [...state.jobs, ...action.payload],
         loading: false,
+        page: action.payload.length >= 50 ? state.page + 1 : state.page,
       };
 
     case JOBSLIST_GET_FAILURE:
       return {
         ...state,
-        jobs: {},
+        jobs: [],
         loading: false,
       };
-
-    case SET_FILTERS:
+    case CLEAR_JOBS_LIST:
       return {
         ...state,
-        filters: action.payload,
-      };
-
-    case LOAD_MORE:
-      return {
-        ...state,
-        page: state.page + 1,
-      };
-
-    case RESET_PAGINATION:
-      return {
-        ...state,
+        jobs: [],
         page: 1,
       };
-
     default:
       return state;
   }
